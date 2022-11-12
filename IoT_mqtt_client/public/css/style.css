@@ -1,0 +1,126 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    
+}
+
+:root{
+    /* --blue: rgb(13, 13, 203); */
+    --blue: #03468F;
+    --blue-hover:#0c59ac;
+    --green: #27a913;
+}
+
+header ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 10vh;
+    background-color:var(--blue);
+}
+
+
+header ul li {
+    color:white;
+    margin: 2rem;
+}
+
+.data .title h2{
+    font-size: 2rem;
+}
+
+.update-btn{
+    background-color:var(--blue);
+    color:white;
+    font-size: 1rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 1em;
+}
+.update-btn:hover{
+    background-color: var(--blue-hover);
+
+}
+.struct {
+    display: flex;
+    flex-direction: column;
+}
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5rem;
+    margin:1rem;
+    padding:0rem;
+    border-bottom: 1.5px solid var(--blue-hover);
+
+}
+
+
+.data-list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: auto;
+    margin: 2rem 15rem;
+    padding: 0rem 2rem;
+}
+
+.data-list::-webkit-scrollbar {
+    display: none;
+}
+.data-list .databox{
+    box-shadow: 1px 2px 2px 1px rgba(20,20,20,0.4);
+    border-radius: 1em;
+    background-color: var(--blue);
+    margin:1rem;
+    padding:0.5rem;
+    box-shadow: 1px;
+    width: 8rem;
+    min-width: 8rem;
+    min-height: 8rem;
+    max-width: 8rem;
+    max-height: 8rem;
+    font-size: 0.7rem;
+}
+
+
+.data-list .databox:hover{
+    background-color: var(--blue-hover);
+}
+.databox .boxtitle{
+    text-align: center;
+    font-size: 1.2rem;
+    min-height: 1.5rem;
+    border-bottom: 1px solid white;
+    color: white;
+}
+
+.databox .sensors-data{
+    display: flex;
+    flex-direction: column;
+    margin: 1rem ;
+    align-items: center;
+    color: white;
+}
+
+
+.databox .sensors-data p{
+    display: flex;
+}
+
+
+.graphs {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0rem;
+    padding: 0rem 5rem; 
+}
+
+.title p{
+    margin: 1rem;
+}

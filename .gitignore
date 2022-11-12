@@ -1,0 +1,4 @@
+Device/arduino_secrets.h
+IoT_mqtt_client/node_modules
+Examples/mqtt_client_example.js
+IoT_mqtt_client/secrets.json

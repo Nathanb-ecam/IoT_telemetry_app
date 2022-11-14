@@ -30,7 +30,7 @@
                     <div class="boxtitle"><%= messages[i].time %></div>
                     <div class="sensors-data">
                         <p>Humidity : <span><%= messages[i].humidity + '%' %></span></p>
-                        <p>Light : <span><%= messages[i].light + '%' %></span></p>
+                        <p>Light : <span><%= Math.round(messages[i].light/655,35 * 1)/ 1  + '%' %></span></p>
                     </div>
                         
                 </div>
@@ -48,10 +48,7 @@
                 <div id="lightPlot" style="width:50%;max-width:600px"></div>
                 <div id="humidityPlot" style="width:50%;max-width:600px"></div>
             </div>
-    </div>
-    
-
-
+        </div>
     </div>
     <script defer>
 
@@ -64,7 +61,7 @@
         var y_humidity = [];
 
         for (i=0;i<messages.length;i++){
-            y_light.push(messages[i].light);
+            y_light.push(Math.round(messages[i].light/655,35 * 1)/ 1);
             y_humidity.push(messages[i].humidity);
             x_time.push(messages[i].time);
         }
@@ -79,9 +76,10 @@
         // Define Layout for light graph
         var layout = {
         xaxis: {range: [Math.min(...x_time),Math.max(...x_time)], title: "time"},
-        yaxis: {range: [Math.min(...y_light)-20,Math.max(...y_light)+20], title: "% light intensity"},  
+        yaxis: {range: [0,100], title: "% light intensity"},  
         title: "Light in time"
         };
+        Plotly.newPlot("lightPlot", light_data, layout);
 
 
         // // Define Data for Humidity
@@ -93,12 +91,11 @@
         // Define Layout for light graph
         var layout = {
         xaxis: {range: [Math.min(...x_time),Math.max(...x_time) ], title: "time"},
-        yaxis: {range: [Math.min(...y_humidity)-10,Math.max(...y_humidity)+10], title: "% of humidity"},  
+        yaxis: {range: [0,100], title: "% of humidity"},  
         title: "Humidity in time"
         };
 
         // Display using Plotly
-        Plotly.newPlot("lightPlot", light_data, layout);
         Plotly.newPlot("humidityPlot", humidity_data, layout);
 
         // to plot both graphs______________

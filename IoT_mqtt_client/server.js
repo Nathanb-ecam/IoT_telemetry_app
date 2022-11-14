@@ -1,7 +1,6 @@
 var express = require('express');
 var secrets  = require('./secrets.json'); 
-console.log(secrets);
-
+   
 var app = express();
 
 app.use(express.urlencoded());// pour récupérer le contenu du corps de message de la méthode post

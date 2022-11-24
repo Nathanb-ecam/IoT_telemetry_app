@@ -25,16 +25,25 @@
         </div>
     
         <div class="data-list">
-            <% for (var i = 0;i <messages.length;i++){ %>
+
+            <%  for (var i = 0;i <messages.length;i++){ %>
                 <div class="databox">
                     <div class="boxtitle"><%= messages[i].time %></div>
                     <div class="sensors-data">
                         <p>Humidity : <span><%= messages[i].humidity + '%' %></span></p>
                         <p>Light : <span><%= Math.round(messages[i].light/655,35 * 1)/ 1  + '%' %></span></p>
-                    </div>
-                        
+                    </div>      
                 </div>
             <% } %>  
+        </div>
+        <div class ="alert">
+            <% 
+            let indx = messages.length-1;
+            if (indx >=0){ %>
+                <p>Last light data : <%= Math.round(messages[indx].light/655,35 * 1)/ 1%></p>
+                <p>Last humidity data : <%= messages[indx].humidity%></p>
+            <% } %>
+            
         </div>
     
         <div class="graphs-container">
@@ -51,8 +60,6 @@
         </div>
     </div>
     <script defer>
-
-        console.log("Plotting");
         let messages = JSON.parse('<%- JSON.stringify(messages) %>');
         
 

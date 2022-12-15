@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Home</title>
+</head>
+<body>
+    <header>
+        <ul>
+            <li>Moisture IoT</li>
+            <li>Group 7</li>
+        </ul>
+    </header>
+    
+    <div class="struct">
+        <div class="title">
+            <p>Live data from sensors</p>
+
+        </div>
+    
+        <div class="data-list">
+            <table class="live-table">
+                <thead>
+                    <tr>
+                        <th>Humidity</th>
+                        <th>Light intensity</th>
+                        <th>Time</th>
+                      </tr>
+                </thead>
+                <tbody class="live-data-content">
+
+                </tbody>
+
+            </table>
+        </div>
+        <div class ="title">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <p class="alert-humidity">No values</p></p>
+            <p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-droplet"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+                <p class="alert-light">No values</p>
+            </p>
+        </div>  
+    </div>
+    <script src = "/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        let messages = JSON.parse('<%- JSON.stringify(messages) %>');
+        let decodeds = []; 
+        
+        function update_mean(){
+            let humidity = 0;
+            let light = 0;
+            console.log(decodeds);
+            for (i in decodeds){
+                console.log("iterating messages");
+                console.log(decodeds[i]);
+                humidity+=decodeds[i].humidity;
+                light+=decodeds[i].light;
+            }
+            humidity = humidity/decodeds.length;
+            light = Math.round((light/decodeds.length)/655,35 * 1)/ 1;
+            document.querySelector(".alert-humidity").innerHTML =  humidity+" %";
+            document.querySelector(".alert-light").innerHTML = light+" %";
+        }
+
+        function update_livedata_table(decoded_payload){
+            var tbody = document.querySelector('.live-data-content');
+            var row = document.createElement("tr");
+            var humidity = document.createElement("td");
+            var light = document.createElement("td");
+            var time = document.createElement("td");
+            humidity.innerHTML =  decoded_payload.humidity + "%";
+            light.innerHTML = Math.round(decoded_payload.light/655,35 * 1)/ 1 + "%";
+            time.innerHTML =  decoded_payload.time;
+            row.appendChild(humidity);
+            row.appendChild(light);
+            row.appendChild(time);
+            tbody.appendChild(row);
+        }
+
+        var receive = function(message) {
+            var decoded_payload = message.decoded_payload;
+            var uplink_not_decoded = message;
+            console.log(decoded_payload);
+
+
+            decodeds.push(decoded_payload);
+            update_livedata_table(decoded_payload);
+            update_mean();
+            // console.log("socket received the message");
+            // console.log(decoded_payload);
+        }
+        
+        socket.on('message', receive);
+    </script>
+    
+</body>
+</html>

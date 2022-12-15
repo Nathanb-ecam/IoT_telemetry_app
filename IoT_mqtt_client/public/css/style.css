@@ -19,7 +19,7 @@ header ul {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 10vh;
+    height: 8vh;
     background-color:var(--blue);
 }
 
@@ -127,6 +127,30 @@ header ul li {
     margin: 1rem;
 }
 
-/* .alert{
-    
-} */
+.alert{
+    background-color: red;   
+}
+
+.live-table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 60%;
+
+  }
+  
+  .live-table td{
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+    max-height: 30vh;
+    overflow: auto;
+  }
+  .live-table th{
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+  }
+  
+  .live-table tr:nth-child(even) {
+    background-color: #dddddd;
+  }

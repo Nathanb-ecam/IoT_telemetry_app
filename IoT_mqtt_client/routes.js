@@ -4,9 +4,12 @@ let router = express.Router();
 let messages = [];
 
 router.get('/', function (request, response) { // pour recuperer des parametres de l'url 
-   response.render("home.ejs",{messages:messages});
+   response.render("homepage.ejs",{messages:messages});
     
  });
+
+
+ 
  
 
 

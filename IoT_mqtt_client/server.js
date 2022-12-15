@@ -1,15 +1,31 @@
-var express = require('express');
+
+"__________________________________________________________________________________________________________________________________________________________________________________________"
+
+
+
+
+var express = require('express'); 
+let app = express();
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended:true}));
+
+//Middleware; css/img/js
+app.use(express.static('public'));
+
+
+
+//Server
+var server = require("http").Server(app);
+var io = require("socket.io")(server); 
+
+//Routes
+let routes = require('./routes');
+app.use('/', routes);
+
+
+// mqtt credentials
 var secrets  = require('./secrets.json'); 
-   
-var app = express();
-
-app.use(express.urlencoded());// pour récupérer le contenu du corps de message de la méthode post
-
-let routes = require("./routes.js");
-
-app.use('/',routes); // on associe les routes à la racine
-
-let messages = []
 
 // client mqtt
 const mqtt = require('mqtt');
@@ -18,18 +34,23 @@ var host = 'eu1.cloud.thethings.network';
 var port = '1883';
 var connectUrl = `mqtt://${host}:${port}`;
 
+
+let messages = [];
+
 var client = mqtt.connect(connectUrl,{
    clean: true,
    connectTimeout: 4000,
    username: secrets.username,
    password: secrets.password,
    reconnectPeriod: 1000,
-})
+});
+
 
 client.on('connect',  () =>{
    var topic = "v3/moisture-application-2022@ttn/devices/eui-a8610a353028630a/up";
    console.log('Connected')
    client.subscribe(topic); //single topic
+   
    
 })
 
@@ -41,29 +62,24 @@ client.on("error",  function(error){
 
 client.on("message", function (topic, message, packet) {
    var getDataFromTTN = JSON.parse(message);
+   uplink_message = getDataFromTTN.uplink_message;
    data = getDataFromTTN.uplink_message.decoded_payload;
    // console.log("data :");
+   // console.log(uplink_message);
+
    // console.log(data);
-   messages.push(data);
+   // messages.push(data);
+
    // console.log("received from topic :");
    // console.log(topic);
+   //socket emit
+   io.emit('message',uplink_message);
    
-})
-
-
-app.post('/', function(req,resp){
-   // console.log(req.body);
-   resp.render("home.ejs",{messages:messages});
 });
 
 
 
 
-
-app.use(express.static('public')); // permet d'avoir acces au doissier "public" qui contient css/images
-
-app.listen(3000, function () {
-   console.log("Server running on port 3000")
+server.listen(process.env.PORT || 3000, () => { 
+   console.log('J ecoute au port 3000 socket');
 });
-
-

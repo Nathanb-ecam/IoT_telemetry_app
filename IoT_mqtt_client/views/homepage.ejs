@@ -26,8 +26,8 @@
             <table class="live-table">
                 <thead>
                     <tr>
-                        <th>Light intensity</th>
                         <th>Humidity</th>
+                        <th>Light intensity</th>
                         <th>Time</th>
                     </tr>
                 </thead>
@@ -60,8 +60,8 @@
                 humidity+=decodeds[i].humidity;
                 light+=decodeds[i].light;
             }
-            humidity = humidity/decodeds.length;
-            light = Math.round((light/decodeds.length)/655,35 * 1)/ 1;
+            humidity = Math.round((humidity/decodeds.length)/2.56 * 1)/ 1;
+            light = Math.round((light/decodeds.length)/655.36 * 1)/ 1;
             document.querySelector(".alert-humidity").innerHTML =  humidity+" %";
             document.querySelector(".alert-light").innerHTML = light+" %";
         }
@@ -72,8 +72,9 @@
             var humidity = document.createElement("td");
             var light = document.createElement("td");
             var time = document.createElement("td");
-            humidity.innerHTML =  Math.round(decoded_payload.humidity/ 1)/1 + "%";
-            light.innerHTML = Math.round(decoded_payload.light/655,35 * 1)/ 1 + "%";
+            humidity.innerHTML =  Math.round(decoded_payload.humidity/2.56* 1)/1 + "%" ;
+            console.log(decoded_payload.humidity/2.56);
+            light.innerHTML = Math.round(decoded_payload.light/655.36 * 1)/ 1 + "%";
             time.innerHTML =  decoded_payload.time;
             row.appendChild(humidity);
             row.appendChild(light);

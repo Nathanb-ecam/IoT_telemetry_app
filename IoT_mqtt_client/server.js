@@ -7,8 +7,6 @@
 var express = require('express'); 
 let app = express();
 
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended:true}));
 
 //Middleware; css/img/js
 app.use(express.static('public'));
@@ -50,6 +48,7 @@ client.on('connect',  () =>{
    var topic = "v3/moisture-application-2022@ttn/devices/eui-a8610a353028630a/up";
    console.log('Connected')
    client.subscribe(topic); //single topic
+
    
    
 })
@@ -72,7 +71,7 @@ client.on("message", function (topic, message, packet) {
 
    // console.log("received from topic :");
    // console.log(topic);
-   //socket emit
+
    io.emit('message',uplink_message);
    
 });

@@ -18,6 +18,7 @@
     <div class="struct">
         <div class="title">
             <p>Live data from sensors</p>
+            <p class="rx_metadata"></p>
 
         </div>
     
@@ -25,10 +26,10 @@
             <table class="live-table">
                 <thead>
                     <tr>
-                        <th>Humidity</th>
                         <th>Light intensity</th>
+                        <th>Humidity</th>
                         <th>Time</th>
-                      </tr>
+                    </tr>
                 </thead>
                 <tbody class="live-data-content">
 
@@ -38,10 +39,10 @@
         </div>
         <div class ="title">
             <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            <p class="alert-humidity">No values</p></p>
+            <p class="alert-humidity">No mean value</p></p>
             <p>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-droplet"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
-                <p class="alert-light">No values</p>
+                <p class="alert-light">No mean value</p>
             </p>
         </div>  
     </div>
@@ -56,8 +57,6 @@
             let light = 0;
             console.log(decodeds);
             for (i in decodeds){
-                console.log("iterating messages");
-                console.log(decodeds[i]);
                 humidity+=decodeds[i].humidity;
                 light+=decodeds[i].light;
             }
@@ -73,7 +72,7 @@
             var humidity = document.createElement("td");
             var light = document.createElement("td");
             var time = document.createElement("td");
-            humidity.innerHTML =  decoded_payload.humidity + "%";
+            humidity.innerHTML =  Math.round(decoded_payload.humidity/ 1)/1 + "%";
             light.innerHTML = Math.round(decoded_payload.light/655,35 * 1)/ 1 + "%";
             time.innerHTML =  decoded_payload.time;
             row.appendChild(humidity);
@@ -82,17 +81,25 @@
             tbody.appendChild(row);
         }
 
-        var receive = function(message) {
-            var decoded_payload = message.decoded_payload;
-            var uplink_not_decoded = message;
-            console.log(decoded_payload);
+        var receive = function(uplink) {
+            var decoded_payload = uplink.decoded_payload;
+            var rx_metadata = uplink.rx_metadata[0] 
+            var signal_info = document.querySelector('.rx_metadata');
 
+            console.log(decoded_payload);
+            // console.log("RSSI");
+            console.log(rx_metadata.rssi);
+            if (rx_metadata.rssi < 40){
+
+            }
+            signal_info.innerHTML = "RSSI : " +rx_metadata.rssi;
+            // console.log("snr");
+            // console.log(rx_metadata.snr);
 
             decodeds.push(decoded_payload);
             update_livedata_table(decoded_payload);
             update_mean();
-            // console.log("socket received the message");
-            // console.log(decoded_payload);
+
         }
         
         socket.on('message', receive);

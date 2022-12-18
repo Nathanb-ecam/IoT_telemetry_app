@@ -63,94 +63,52 @@ header ul li {
 
 .data-list {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    overflow-x: auto;
-    margin: 2rem 15rem;
-    padding: 0rem 2rem;
-
+    justify-content: center;
+    overflow: scroll;
+    height: 45vh;
 }
-
 
 .data-list::-webkit-scrollbar {
     display: none;
 }
-.data-list .databox{
-    box-shadow: 1px 2px 2px 1px rgba(20,20,20,0.4);
-    border-radius: 1em;
-    background-color: var(--blue);
-    margin:1rem;
-    padding:0.5rem;
-    box-shadow: 1px;
-    width: 8rem;
-    min-width: 8rem;
-    min-height: 8rem;
-    max-width: 8rem;
-    max-height: 8rem;
-    font-size: 0.7rem;
-}
 
 
-.data-list .databox:hover{
-    background-color: var(--blue-hover);
-}
-.databox .boxtitle{
-    text-align: center;
-    font-size: 1.2rem;
-    min-height: 1.5rem;
-    border-bottom: 1px solid white;
-    color: white;
-}
-
-.databox .sensors-data{
-    display: flex;
-    flex-direction: column;
-    margin: 1rem ;
-    align-items: center;
-    color: white;
-}
 
 
-.databox .sensors-data p{
-    display: flex;
-}
-
-
-.graphs {
-    display: flex;
-    justify-content: space-evenly;
-    margin: 0rem;
-    padding: 0rem 5rem; 
-}
 
 .title p{
     margin: 1rem;
 }
 
-.alert{
-    background-color: red;   
-}
 
 .live-table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 60%;
+    height: fit-content;
 
-  }
+}
+/* .live-table thead {
+    position: fixed;
+    z-index: 999;
+}
+.live-data-content tr {
+    height: 25px;
+} */
   
-  .live-table td{
-    border: 1px solid #dddddd;
-    text-align: center;
-    padding: 8px;
-    max-height: 30vh;
-    overflow: auto;
-  }
-  .live-table th{
-    border: 1px solid #dddddd;
-    text-align: center;
-    padding: 8px;
-  }
-  
-  .live-table tr:nth-child(even) {
-    background-color: #dddddd;
-  }
+.live-table td{
+border: 1px solid #dddddd;
+text-align: center;
+padding: 8px;
+max-height: 30vh;
+overflow: auto;
+}
+.live-table th{
+border: 1px solid #dddddd;
+text-align: center;
+padding: 8px;
+}
+
+.live-table tr:nth-child(even) {
+background-color: #dddddd;
+}

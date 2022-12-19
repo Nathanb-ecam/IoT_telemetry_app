@@ -67,14 +67,21 @@
         }
 
         function update_livedata_table(decoded_payload){
+            var signal_info = document.querySelector('.rx_metadata');
             var tbody = document.querySelector('.live-data-content');
             var row = document.createElement("tr");
             var humidity = document.createElement("td");
             var light = document.createElement("td");
             var time = document.createElement("td");
-            humidity.innerHTML =  Math.round(decoded_payload.humidity/2.56* 1)/1 + "%" ;
-            console.log(decoded_payload.humidity/2.56);
-            light.innerHTML = Math.round(decoded_payload.light/655.36 * 1)/ 1 + "%";
+            humidity_perc = Math.round(decoded_payload.humidity/2.56* 1)/1;
+            light_perc = Math.round(decoded_payload.light/655.36 * 1)/ 1;
+            humidity.innerHTML = humidity_perc + "%" ;
+            light.innerHTML = light_perc + "%" ;
+            if (humidity_perc ==100 || light_perc ==100){
+                // console.log("Alert, you need to iriggate");
+                signal_info.innerHTML = "You need to irrigate your fields !";
+        
+            }
             time.innerHTML =  decoded_payload.time;
             row.appendChild(humidity);
             row.appendChild(light);
@@ -90,10 +97,17 @@
             console.log(decoded_payload);
             // console.log("RSSI");
             console.log(rx_metadata.rssi);
-            if (rx_metadata.rssi < 40){
-
+            if (rx_metadata.rssi < 70){
+                // signal_info.innerHTML = "RSSI : " +rx_metadata.rssi;
+                signal_info.innerHTML = "Good signal";
             }
-            signal_info.innerHTML = "RSSI : " +rx_metadata.rssi;
+            else if (rx_metadata>90){
+                signal_info.innerHTML = "Bad signal";
+            }
+            else{
+                signal_info.innerHTML = "Average signal quality";
+            }
+            // signal_info.innerHTML = "RSSI : " +rx_metadata.rssi;
             // console.log("snr");
             // console.log(rx_metadata.snr);
 

@@ -112,3 +112,10 @@ padding: 8px;
 .live-table tr:nth-child(even) {
 background-color: #dddddd;
 }
+
+.struct .title .rx_metadata{
+    color: red;
+    font-size:0.8em;
+    border:1px solid red;
+    padding:0.3rem;
+}

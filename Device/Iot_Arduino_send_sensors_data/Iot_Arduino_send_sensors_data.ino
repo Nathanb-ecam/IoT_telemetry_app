@@ -8,7 +8,7 @@
 
 LoRaModem modem;
 int humiditySensorPin = A0;
-// int lightSensorPin = ;
+
 int humiditySensorValue = 0;
 uint16_t lightSensorValue = 0;
 // int msg_counter = 0;
@@ -41,7 +41,7 @@ void configureLightSensor(void)
 
 void setup() {  
   Serial.begin(115200);
-  while (!Serial);
+  //while (!Serial);
    
   // change this to your regional band (eg. US915, AS923, ...)
   if (!modem.begin(EU868)) {
@@ -90,6 +90,7 @@ void loop() {
   Serial.println("Sending message...");
   modem.setPort(3);
   modem.beginPacket();
+  modem.
 
 
   // 0 à 255 
@@ -141,5 +142,5 @@ void loop() {
     Serial.println("Error sending message :(");
     Serial.println(error);
   }
-  delay(5000);
+  delay(15000);
 }
